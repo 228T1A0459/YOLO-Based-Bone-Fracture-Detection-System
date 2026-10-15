@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script>
+    function startTransition() {
+        document.querySelector(".login-card").classList.add("exit");
+        document.getElementById("overlay").classList.add("show");
+    }
+    </script>
+</head>
+
+<body class="login-body">
+
+<div id="overlay">
+    <div class="loader"></div>
+</div>
+
+<div class="login-card">
+
+    <h1 class="login-title">
+        Bone Fracture Detection System
+    </h1>
+
+    <p class="sub-title">
+        AI-Powered X-ray Fracture Analysis
+    </p>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST" action="/" onsubmit="startTransition()">
+
+        <input type="text"
+               name="username"
+               placeholder="Username"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Password"
+               required>
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

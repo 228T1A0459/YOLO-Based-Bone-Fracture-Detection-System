@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Bone Fracture Detection</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="main-card home">
+
+    <h1 class="main-title">
+        Bone Fracture Detection System
+    </h1>
+
+    <!-- Upload Box -->
+    <!-- Upload Box -->
+<label for="imageInput" class="upload-label">
+
+    <!-- Upload SVG Icon -->
+    <svg class="upload-icon"
+         xmlns="http://www.w3.org/2000/svg"
+         fill="none"
+         viewBox="0 0 24 24"
+         stroke-width="1.8"
+         stroke="currentColor">
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M7 16a4 4 0 01-.88-7.903A5 5 0 0116 7a4 4 0 011 7.874M12 12v6m0-6l-3 3m3-3l3 3"/>
+
+    </svg>
+
+    <span>Select X-ray Image</span>
+
+</label>
+
+<input type="file"
+       id="imageInput"
+       name="file"
+       accept="image/*"
+       style="display:none;">
+
+
+    </label>
+
+
+    <button onclick="uploadImage()">
+        Detect Fracture
+    </button>
+
+
+    <!-- Result -->
+    <div id="result" class="result-area" style="display:none;">
+
+        <img id="resultImage" class="result-img">
+
+        <p id="status" class="result-text"></p>
+
+        <p id="details"></p>
+
+    </div>
+
+
+    <!-- Logout -->
+    <!-- Logout -->
+<div id="logoutContainer" class="logout-container" style="display:none;">
+
+
+        <form action="/logout" method="GET">
+
+            <button type="submit" class="logout-btn">
+                Logout
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+function uploadImage() {
+
+    let file = document.getElementById("imageInput").files[0];
+
+    if (!file) {
+        alert("Please select an X-ray image");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("file", file);
+
+    fetch("/upload", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+   .then(data => {
+
+    // Show result
+    document.getElementById("result").style.display = "block";
+
+    // Show logout button
+    document.getElementById("logoutContainer").style.display = "flex";
+
+    // Set result data
+    document.getElementById("resultImage").src =
+        "/uploads/" + data.image;
+
+    document.getElementById("status").innerText =
+        data.status;
+
+    document.getElementById("details").innerText =
+        data.details;
+
+});
+
+}
+</script>
+
+</body>
+</html>
